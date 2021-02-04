@@ -6,7 +6,7 @@ namespace CapstoneTests.Providers
 {
     class StubProductProvider : IProductProvider
     {
-        List<Product> products = new List<Product>();
+        private List<Product> products = new List<Product>();
 
         public IList<Product> GetProducts()
         {
