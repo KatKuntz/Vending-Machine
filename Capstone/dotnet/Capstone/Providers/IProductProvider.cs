@@ -5,6 +5,6 @@ namespace Capstone.Providers
 {
     public interface IProductProvider
     {
-        public IList<Product> GetProducts();
+        public IDictionary<string, Product> GetProducts();
     }
 }
