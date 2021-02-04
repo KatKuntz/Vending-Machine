@@ -7,7 +7,6 @@
         }
         public override string GetMessage()
         {
-            
             return "Munch Munch, Yum!";
         }
     }
