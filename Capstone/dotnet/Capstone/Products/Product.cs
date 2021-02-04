@@ -2,10 +2,10 @@
 {
     public abstract class Product
     {
-        public int CurrentQuantity { get; set; } = 5;
-        public int CurrentRevenue { get; set; } = 0;
-        public string ProductName { get; set; }
-        public decimal Price { get; set; }
+        public int CurrentQuantity { get; private set; } = 5;
+        public int CurrentRevenue { get; private set; } = 0;
+        public string ProductName { get; }
+        public decimal Price { get; }
         public abstract string GetMessage();
     }
 }
