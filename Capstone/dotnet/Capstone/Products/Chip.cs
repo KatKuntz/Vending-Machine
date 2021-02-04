@@ -6,9 +6,6 @@ namespace Capstone.Products
 {
     class Chip: Product
     {
-        public Chip():base("Chip")
-        {
-        }
         public override string GetMessage()
         {
             return "Crunch Crunch, Yum!";

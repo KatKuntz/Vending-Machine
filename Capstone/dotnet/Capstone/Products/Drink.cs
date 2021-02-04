@@ -6,9 +6,6 @@ namespace Capstone.Products
 {
     class Drink:Product
     {
-        public Drink() : base("Drink")
-        {
-        }
         public override string GetMessage()
         {
             return "Glug Glug, Yum!";
