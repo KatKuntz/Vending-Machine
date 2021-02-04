@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Capstone.Util
 {
@@ -13,7 +11,7 @@ namespace Capstone.Util
         {
             using (StreamWriter writer = new StreamWriter(logFile))
             {
-                writer.WriteLine($"{GetTimestamp()} message\n{balance:C2}");
+                writer.WriteLine($"{GetTimestamp()} message");
             }
         }
 
