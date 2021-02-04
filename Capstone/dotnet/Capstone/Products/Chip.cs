@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Capstone.Products
+﻿namespace Capstone.Products
 {
-    class Chip: Product
+    class Chip : Product
     {
         public override string GetMessage()
         {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Capstone.Products
+﻿namespace Capstone.Products
 {
     public abstract class Product
     {
