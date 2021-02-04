@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Capstone
+namespace Capstone.Products
 {
     public abstract class Product
     {

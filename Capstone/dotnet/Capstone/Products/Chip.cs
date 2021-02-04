@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Capstone
+namespace Capstone.Products
 {
-    class Gum:Product
+    class Chip: Product
     {
-        public Gum() : base("Gum")
+        public Chip():base("Chip")
         {
         }
         public override string GetMessage()
         {
-            return "Chew Chew, Yum!";
+            return "Crunch Crunch, Yum!";
         }
     }
 }
