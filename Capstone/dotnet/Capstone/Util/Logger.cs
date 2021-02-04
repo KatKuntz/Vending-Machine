@@ -7,11 +7,11 @@ namespace Capstone.Util
     {
         private const string logFile = @"Log.txt";
 
-        public static void Log(string message, decimal balance)
+        public static void Log(string message)
         {
             using (StreamWriter writer = new StreamWriter(logFile))
             {
-                writer.WriteLine($"{GetTimestamp()} message");
+                writer.WriteLine($"{GetTimestamp()} {message}");
             }
         }
 
