@@ -13,8 +13,13 @@ namespace Capstone.Util
         {
             using (StreamWriter writer = new StreamWriter(logFile))
             {
-                writer.WriteLine(message);
+                writer.WriteLine($"{GetTimestamp()} message");
             }
+        }
+
+        private static string GetTimestamp()
+        {
+            return DateTime.Now.ToString();
         }
     }
 }
