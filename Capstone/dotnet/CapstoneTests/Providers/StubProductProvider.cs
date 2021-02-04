@@ -6,16 +6,16 @@ namespace CapstoneTests.Providers
 {
     class StubProductProvider : IProductProvider
     {
-        List<Product> products = new List<Product>();
+        private readonly Dictionary<string, Product> products = new Dictionary<string, Product>();
 
-        public IList<Product> GetProducts()
+        public IDictionary<string, Product> GetProducts()
         {
             return products;
         }
 
-        public void AddProduct(Product product)
+        public void AddProduct(string slot, Product product)
         {
-            products.Add(product);
+            products.Add(slot, product);
         }
     }
 }
