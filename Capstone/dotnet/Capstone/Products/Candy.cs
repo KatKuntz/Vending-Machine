@@ -1,6 +1,6 @@
 ﻿namespace Capstone.Products
 {
-    class Candy : Product
+    public class Candy : Product
     {
         public Candy(string productName, decimal price) : base(productName, price)
         {
