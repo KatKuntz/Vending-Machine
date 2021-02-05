@@ -36,7 +36,7 @@ namespace Capstone
                 throw new InvalidOperationException($"Cannot accept bill value: {dollarAmount}");
             }
             CurrentBalance += dollarAmount;
-            Logger.Log($"FEED MONEY: ${dollarAmount} {CurrentBalance}");
+            Logger.Log($"FEED MONEY: {dollarAmount:C2} {CurrentBalance:C2}");
         }
 
         public Product GetItem(string slotId)
@@ -60,16 +60,17 @@ namespace Capstone
                 throw new InvalidOperationException("Cannot dispense item: it is sold out.");
             }
             item.SellProduct();
+            decimal initialBalance = CurrentBalance;
             CurrentBalance -= item.Price;
             TotalSales += item.Price;
-            Logger.Log($"{item.ProductName} {slotId} ${CurrentBalance + item.Price} ${CurrentBalance}");
+            Logger.Log($"{item.ProductName} {slotId} {initialBalance:C2} {CurrentBalance:C2}");
 
         }
         public Change ReturnChange()
         {
             decimal initialBalance = CurrentBalance;
             Change change = new Change(CurrentBalance);
-            Logger.Log($"GIVE CHANGE: ${initialBalance} $0.00");
+            Logger.Log($"GIVE CHANGE: {initialBalance:C2} $0.00");
             return change;
         }
     }

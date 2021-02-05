@@ -1,33 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Capstone.UI
 {
     static class MainMenu
     {
-        public static void Show(VendingMachine vendingMachine)
+        private static void PrintMenu()
         {
-            bool running = true;
-            while (running)
+            Console.WriteLine("(1) Display Vending Machine Items");
+            Console.WriteLine("(2) Purchase");
+            Console.WriteLine("(3) Exit");
+        }
+
+        public static string Show()
+        {
+            string userInput = "";
+            bool validInput = false;
+            while (!validInput)
             {
-                Console.WriteLine("(1) Display Vending Machine Items");
-                Console.WriteLine("(2) Purchase");
-                Console.WriteLine("(3) Exit");
-                string inputLine = Console.ReadLine();
-                if (inputLine == "1")
+                PrintMenu();
+                userInput = Console.ReadLine();
+                if (userInput == "1" || userInput == "2" || userInput == "3")
                 {
-                    DisplayHelper.DisplayVendingItems(vendingMachine);
-                }
-                else if (inputLine == "2")
-                {
-                    PurchaseMenu.Show(vendingMachine);
-                }
-                else if (inputLine == "3")
-                {
-                    running = false;
+                    validInput = true;
                 }
             }
+            return userInput;
         }
     }
 }

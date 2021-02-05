@@ -15,5 +15,28 @@ namespace Capstone.UI
                 Console.WriteLine($"{slot}. {product.ProductName} for {product.Price:C2}");
             }
         }
+
+        public static string GetValidInput(string prompt, ICollection<string> validInputs, string errorMessage)
+        {
+            string userInput = "";
+
+            bool inputValid = false;
+            while (!inputValid)
+            {
+                Console.WriteLine(prompt);
+                userInput = Console.ReadLine();
+
+                if (validInputs.Contains(userInput))
+                {
+                    inputValid = true;
+                }
+                else
+                {
+                    Console.WriteLine(errorMessage);
+                }
+            }
+
+            return userInput;
+        }
     }
 }

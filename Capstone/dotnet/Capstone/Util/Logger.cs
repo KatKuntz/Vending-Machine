@@ -9,7 +9,7 @@ namespace Capstone.Util
 
         public static void Log(string message)
         {
-            using (StreamWriter writer = new StreamWriter(logFile))
+            using (StreamWriter writer = new StreamWriter(logFile, true))
             {
                 writer.WriteLine($"{GetTimestamp()} {message}");
             }

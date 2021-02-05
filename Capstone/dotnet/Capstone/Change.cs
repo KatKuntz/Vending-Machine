@@ -13,17 +13,17 @@ namespace Capstone
         {
             while (amount >= 0.25M)
             {
-                amount = -.25M;
+                amount -= .25M;
                 Quarters++;
             }
             while (amount >= 0.10M)
             {
-                amount = -.10M;
+                amount -= .10M;
                 Dimes++;
             }
             while (amount >= 0.05M)
             {
-                amount = -.05M;
+                amount -= .05M;
                 Nickles++;
             }
         }
