@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Capstone.Products;
+using Capstone.Providers;
+using Capstone.UI;
+using System;
+using System.Collections.Generic;
 
 namespace Capstone
 {
@@ -6,7 +10,9 @@ namespace Capstone
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            IProductProvider provider = new CSVProductProvider("vendingmachine.csv",'|');
+            VendingMachine vendingMachine = new VendingMachine(provider);
+            MainMenu.Show(vendingMachine);
         }
     }
 }
