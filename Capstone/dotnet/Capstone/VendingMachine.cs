@@ -9,16 +9,18 @@ namespace Capstone
     public class VendingMachine
     {
         public decimal CurrentBalance { get; private set; } = 0;
-        public IDictionary<string, Product> CurrentInventory { get; }
         public decimal TotalSales { get; private set; } = 0;
+
+        private readonly IDictionary<string, Product> currentInventory;
+
         public ICollection<string> Slots
         {
-            get { return CurrentInventory.Keys; }
+            get { return currentInventory.Keys; }
         }
 
         public VendingMachine(IProductProvider provider)
         {
-            CurrentInventory = provider.GetProducts();
+            currentInventory = provider.GetProducts();
         }
 
         public void FeedMoney(decimal deposit)
@@ -33,7 +35,7 @@ namespace Capstone
             {
                 throw new InvalidOperationException($"{slotId} is not a valid slot in this machine.");
             }
-            return CurrentInventory[slotId];
+            return currentInventory[slotId];
         }
 
         public void Dispense(string slotId)
