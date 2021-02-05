@@ -1,6 +1,7 @@
 ﻿using Capstone.Products;
 using Capstone.Providers;
 using Capstone.Util;
+using System;
 using System.Collections.Generic;
 
 namespace Capstone
@@ -9,6 +10,12 @@ namespace Capstone
     {
         public decimal CurrentBalance { get; private set; } = 0;
         public IDictionary<string, Product> CurrentInventory { get; }
+        public decimal TotalSales { get; private set; } = 0;
+        public ICollection<string> Slots
+        {
+            get { return CurrentInventory.Keys; }
+        }
+
         public VendingMachine(IProductProvider provider)
         {
             CurrentInventory = provider.GetProducts();
@@ -19,25 +26,31 @@ namespace Capstone
             CurrentBalance += deposit;
             Logger.Log($"FEED MONEY: ${deposit} {CurrentBalance}");
         }
-        /*public void GetInventory()
+
+        public Product GetItem(string slotId)
         {
-            foreach (KeyValuePair<string, Product> indivProduct in CurrentInventory)
+            if (!Slots.Contains(slotId))
             {
-                if(indivProduct.Value.CurrentQuantity>0)
-                {
-                    Console.WriteLine($"{indivProduct.Key}. {indivProduct.Value.ProductName} for ${indivProduct.Value.Price}");
-                }
+                throw new InvalidOperationException($"{slotId} is not a valid slot in this machine.");
             }
-        }*/
-        public decimal GetPrice(string slotId)
-        {
-            return CurrentInventory[slotId].Price;
+            return CurrentInventory[slotId];
         }
+
         public void Dispense(string slotId)
         {
-            CurrentBalance = -GetPrice(slotId);
-            CurrentInventory[slotId].SellProduct();
-            Logger.Log($"{CurrentInventory[slotId].ProductName} {slotId} ${CurrentBalance+GetPrice(slotId)} ${CurrentBalance}");
+            Product item = GetItem(slotId);
+            if (CurrentBalance < item.Price)
+            {
+                throw new InvalidOperationException("Not enough money to buy item.");
+            }
+            if (item.CurrentQuantity <= 0)
+            {
+                throw new InvalidOperationException("Cannot dispense item: it is sold out.");
+            }
+            item.SellProduct();
+            CurrentBalance -= item.Price;
+            TotalSales += item.Price;
+            Logger.Log($"{item.ProductName} {slotId} ${CurrentBalance + item.Price} ${CurrentBalance}");
             //Console.WriteLine($"{CurrentInventory[slotId].ProductName} purchased for {CurrentInventory[slotId].Price} with balance remaining of {CurrentBalance}");
             //Console.WriteLine(CurrentInventory[slotId].GetMessage());
             //Console.WriteLine($"Current balance is less than the item price. You need ${CurrentInventory[slotId].Price-CurrentBalance} to make this purchase");
