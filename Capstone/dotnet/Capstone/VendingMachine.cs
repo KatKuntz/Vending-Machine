@@ -23,10 +23,20 @@ namespace Capstone
             currentInventory = provider.GetProducts();
         }
 
-        public void FeedMoney(decimal deposit)
+        public bool AcceptsBill(int dollarAmount)
         {
-            CurrentBalance += deposit;
-            Logger.Log($"FEED MONEY: ${deposit} {CurrentBalance}");
+            List<int> validBills = new List<int>() { 1, 2, 5, 10 };
+            return validBills.Contains(dollarAmount);
+        }
+
+        public void FeedMoney(int dollarAmount)
+        {
+            if (!AcceptsBill(dollarAmount))
+            {
+                throw new InvalidOperationException($"Cannot accept bill value: {dollarAmount}");
+            }
+            CurrentBalance += dollarAmount;
+            Logger.Log($"FEED MONEY: ${dollarAmount} {CurrentBalance}");
         }
 
         public Product GetItem(string slotId)
