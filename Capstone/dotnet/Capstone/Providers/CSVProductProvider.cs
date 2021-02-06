@@ -78,23 +78,24 @@ namespace Capstone.Providers
         private Product MakeProduct(string productName, decimal price, string productType)
         {
             Product product;
+            int initialQuantity = 5;
             
             // Construct product based on the type
             if (productType == "Chip")
             {
-                product = new Chip(productName, price);
+                product = new Chip(productName, price, initialQuantity);
             }
             else if (productType == "Candy")
             {
-                product = new Candy(productName, price);
+                product = new Candy(productName, price, initialQuantity);
             }
             else if (productType == "Drink")
             {
-                product = new Drink(productName, price);
+                product = new Drink(productName, price, initialQuantity);
             }
             else if (productType == "Gum")
             {
-                product = new Gum(productName, price);
+                product = new Gum(productName, price, initialQuantity);
             }
             else
             {
