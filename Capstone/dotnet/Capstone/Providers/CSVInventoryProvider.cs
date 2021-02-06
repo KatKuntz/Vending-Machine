@@ -36,14 +36,20 @@ namespace Capstone.Providers
             return products;
         }
 
-        private void ProcessProductString(string productString, Dictionary<string, Product> products)
+        private string[] GetTokens(string csvLine)
         {
             // Ensure that the line has the right amount of fields
-            string[] tokens = productString.Split(delimiter);
+            string[] tokens = csvLine.Split(delimiter);
             if (tokens.Length != 4)
             {
-                throw new ProvideProductsException($"Line not formatted correctly: {productString}");
+                throw new ProvideProductsException($"Line not formatted correctly: {csvLine}");
             }
+            return tokens;
+        }
+
+        private void ProcessProductString(string csvLine, Dictionary<string, Product> products)
+        {
+            string[] tokens = GetTokens(csvLine);
 
             // Get the product info from the fields.
             string slotName = tokens[0];
