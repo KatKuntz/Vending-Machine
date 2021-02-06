@@ -46,7 +46,7 @@ namespace Capstone
                 if (userInput == "1")
                 {
                     string prompt = "Insert 1,2,5 or 10 dollar bills";
-                    string[] validBills = { "1", "2", "5", "10" };
+                    string[] validBills = { "0", "1", "2", "5", "10" };
                     string errorMessage = "Invalid bill inserted";
                     string moneyString = DisplayHelper.GetValidInput(prompt, validBills, errorMessage);
                     int moneyDeposit = int.Parse(moneyString);
