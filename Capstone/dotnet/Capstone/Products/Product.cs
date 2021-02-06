@@ -7,7 +7,12 @@ namespace Capstone.Products
         public int NumberSold { get; private set; } = 0;
         public string ProductName { get; }
         public decimal Price { get; }
-        public void SellProduct()
+        public Product(string productName, decimal price)
+        {
+            ProductName = productName;
+            Price = price;
+        }
+        public void Sell()
         {
             if(CurrentQuantity==0)
             {
@@ -15,11 +20,6 @@ namespace Capstone.Products
             }
             CurrentQuantity--;
             NumberSold++;
-        }
-        public Product(string productName, decimal price)
-        {
-            ProductName = productName;
-            Price = price;
         }
         public abstract string GetMessage();
     }

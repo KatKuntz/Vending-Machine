@@ -59,7 +59,7 @@ namespace Capstone
             {
                 throw new InvalidOperationException("Cannot dispense item: it is sold out.");
             }
-            item.SellProduct();
+            item.Sell();
             decimal initialBalance = CurrentBalance;
             CurrentBalance -= item.Price;
             TotalSales += item.Price;
