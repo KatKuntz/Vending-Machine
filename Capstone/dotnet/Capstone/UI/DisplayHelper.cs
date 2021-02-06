@@ -12,7 +12,14 @@ namespace Capstone.UI
             foreach (string slot in vendingMachine.Slots)
             {
                 Product product = vendingMachine.GetItem(slot);
-                Console.WriteLine($"{slot}. {product.ProductName} for {product.Price:C2}");
+                if (product.CurrentQuantity > 0)
+                {
+                    Console.WriteLine($"{slot}. {product.ProductName} for {product.Price:C2}, {product.CurrentQuantity} available");
+                }
+                else
+                {
+                    Console.WriteLine($"{slot}. SOLD OUT");
+                }
             }
         }
 
@@ -26,7 +33,7 @@ namespace Capstone.UI
                 Console.WriteLine(prompt);
                 userInput = Console.ReadLine();
 
-                if (validInputs.Contains(userInput))
+                if (validInputs.Contains(userInput.ToUpper()))
                 {
                     inputValid = true;
                 }
@@ -36,7 +43,7 @@ namespace Capstone.UI
                 }
             }
 
-            return userInput;
+            return userInput.ToUpper();
         }
     }
 }

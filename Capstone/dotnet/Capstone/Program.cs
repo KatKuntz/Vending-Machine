@@ -2,6 +2,7 @@
 using Capstone.Providers;
 using Capstone.UI;
 using System;
+using System.Collections.Generic;
 
 namespace Capstone
 {
@@ -56,7 +57,16 @@ namespace Capstone
                     DisplayHelper.DisplayVendingItems(vendingMachine);
                     string prompt = "Input Slot I.D.";
                     string errorMessage = "Invalid Slot Selected";
-                    string selectedSlot = DisplayHelper.GetValidInput(prompt, vendingMachine.Slots, errorMessage);
+                    ICollection<string> stockedSlots = new List<string>();
+                    foreach (string slot in vendingMachine.Slots)
+                    {
+                        Product productSlotted = vendingMachine.GetItem(slot);
+                        if (productSlotted.CurrentQuantity > 0)
+                        {
+                            stockedSlots.Add(slot);
+                        }
+                    }
+                    string selectedSlot = DisplayHelper.GetValidInput(prompt, stockedSlots, errorMessage);
 
                     Product product = vendingMachine.GetItem(selectedSlot);
                     if (vendingMachine.CurrentBalance >= product.Price)
@@ -64,6 +74,10 @@ namespace Capstone
                         vendingMachine.Dispense(selectedSlot);
                         Console.WriteLine($"{product.ProductName} purchased for {product.Price:C2} with balance remaining of {vendingMachine.CurrentBalance:C2}");
                         Console.WriteLine(product.GetMessage());
+                    }
+                    else if (vendingMachine.CurrentBalance == 0)
+                    {
+                        Console.WriteLine("Must deposit money before making a selection");
                     }
                     else
                     {
