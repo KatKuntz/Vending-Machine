@@ -5,12 +5,12 @@ using System.IO;
 
 namespace Capstone.Providers
 {
-    class CSVProductProvider : IProductProvider
+    class CSVInventoryProvider : IInventoryProvider
     {
         private readonly string[] fileData;
         private readonly char delimiter;
 
-        public CSVProductProvider(string filePath, char delimiter = ',')
+        public CSVInventoryProvider(string filePath, char delimiter = ',')
         {
             try
             {
@@ -24,7 +24,7 @@ namespace Capstone.Providers
             this.delimiter = delimiter;
         }
 
-        public IDictionary<string, Product> GetProducts()
+        public IDictionary<string, Product> GetInventory()
         {
             Dictionary<string, Product> products = new Dictionary<string, Product>();
 

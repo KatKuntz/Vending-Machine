@@ -9,7 +9,7 @@ namespace Capstone
     {
         static void Main(string[] args)
         {
-            IProductProvider provider = new CSVProductProvider("vendingmachine.csv", '|');
+            IInventoryProvider provider = new CSVInventoryProvider("vendingmachine.csv", '|');
             VendingMachine vendingMachine = new VendingMachine(provider);
 
             MainMenuLoop(vendingMachine);
