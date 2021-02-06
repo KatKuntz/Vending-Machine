@@ -47,12 +47,19 @@ namespace Capstone.Providers
             return tokens;
         }
 
+        public string GetProductCode(string csvLine)
+        {
+            string[] tokens = GetTokens(csvLine);
+
+            return tokens[0];
+        }
+
         private void ProcessProductString(string csvLine, Dictionary<string, Product> products)
         {
             string[] tokens = GetTokens(csvLine);
 
             // Get the product info from the fields.
-            string slotName = tokens[0];
+            string slotName = GetProductCode(csvLine);
             string productName = tokens[1];
             decimal price = GetProductPrice(tokens[2]);
             string productType = tokens[3];
