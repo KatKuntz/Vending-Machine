@@ -32,17 +32,31 @@ namespace Capstone.UI
                 Console.WriteLine(prompt);
                 userInput = Console.ReadLine();
 
-                if (validInputs.Contains(userInput.ToUpper()))
+                if (userInput.Equals("q", StringComparison.OrdinalIgnoreCase))
                 {
+                    userInput = null;
                     inputValid = true;
                 }
                 else
+                {
+                    foreach (string valid in validInputs)
+                    {
+                        if (userInput.Equals(valid, StringComparison.OrdinalIgnoreCase))
+                        {
+                            userInput = valid;
+                            inputValid = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (!inputValid)
                 {
                     Console.WriteLine(errorMessage);
                 }
             }
 
-            return userInput.ToUpper();
+            return userInput;
         }
     }
 }

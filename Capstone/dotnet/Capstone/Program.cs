@@ -60,17 +60,20 @@ namespace Capstone
                 string userInput = PurchaseMenu.Show(vendingMachine.CurrentBalance);
                 if (userInput == "1")
                 {
-                    string prompt = "Insert 1,2,5 or 10 dollar bills";
-                    string[] validBills = { "0", "1", "2", "5", "10" };
+                    string prompt = "Insert 1,2,5 or 10 dollar bills or enter 'q' to exit";
+                    string[] validBills = {"1", "2", "5", "10" };
                     string errorMessage = "Invalid bill inserted";
                     string moneyString = DisplayHelper.GetValidInput(prompt, validBills, errorMessage);
-                    int moneyDeposit = int.Parse(moneyString);
-                    vendingMachine.FeedMoney(moneyDeposit);
+                    if (moneyString != null)
+                    {
+                        int moneyDeposit = int.Parse(moneyString);
+                        vendingMachine.FeedMoney(moneyDeposit);
+                    }
                 }
                 else if (userInput == "2")
                 {
                     DisplayHelper.DisplayVendingItems(vendingMachine);
-                    string prompt = "Input Slot I.D.";
+                    string prompt = "Input Slot I.D. or 'q' to exit";
                     string errorMessage = "Invalid Slot Selected";
                     ICollection<string> stockedSlots = new List<string>();
                     foreach (string slot in vendingMachine.Slots)
@@ -83,20 +86,23 @@ namespace Capstone
                     }
                     string selectedSlot = DisplayHelper.GetValidInput(prompt, stockedSlots, errorMessage);
 
-                    Product product = vendingMachine.GetItem(selectedSlot);
-                    if (vendingMachine.CurrentBalance >= product.Price)
+                    if (selectedSlot != null)
                     {
-                        vendingMachine.Dispense(selectedSlot);
-                        Console.WriteLine($"{product.ProductName} purchased for {product.Price:C2} with balance remaining of {vendingMachine.CurrentBalance:C2}");
-                        Console.WriteLine(product.GetMessage());
-                    }
-                    else if (vendingMachine.CurrentBalance == 0)
-                    {
-                        Console.WriteLine("Must deposit money before making a selection");
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Current balance is less than the item price. You need ${product.Price - vendingMachine.CurrentBalance} to make this purchase");
+                        Product product = vendingMachine.GetItem(selectedSlot);
+                        if (vendingMachine.CurrentBalance >= product.Price)
+                        {
+                            vendingMachine.Dispense(selectedSlot);
+                            Console.WriteLine($"{product.ProductName} purchased for {product.Price:C2} with balance remaining of {vendingMachine.CurrentBalance:C2}");
+                            Console.WriteLine(product.GetMessage());
+                        }
+                        else if (vendingMachine.CurrentBalance == 0)
+                        {
+                            Console.WriteLine("Must deposit money before making a selection");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Current balance is less than the item price. You need ${product.Price - vendingMachine.CurrentBalance} to make this purchase");
+                        }
                     }
                 }
                 else if (userInput == "3")
