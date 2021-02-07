@@ -1,7 +1,7 @@
 ﻿using Capstone.Products;
 using System;
 
-namespace Capstone.Providers.Parsers
+namespace Capstone.Parsers
 {
     public class CSVInventoryParser
     {

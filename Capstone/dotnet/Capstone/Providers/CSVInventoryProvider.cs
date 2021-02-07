@@ -1,5 +1,5 @@
 ﻿using Capstone.Products;
-using Capstone.Providers.Parsers;
+using Capstone.Parsers;
 using System;
 using System.Collections.Generic;
 using System.IO;

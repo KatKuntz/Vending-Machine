@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Capstone\Capstone.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Parsers\" />
+  </ItemGroup>
+
 </Project>

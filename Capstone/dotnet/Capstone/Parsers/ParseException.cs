@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Capstone.Providers.Parsers
+namespace Capstone.Parsers
 {
 
     [Serializable]
