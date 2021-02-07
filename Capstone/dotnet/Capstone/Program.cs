@@ -2,7 +2,6 @@
 using Capstone.Providers;
 using Capstone.UI;
 using System;
-using System.Collections.Generic;
 
 namespace Capstone
 {
@@ -61,7 +60,7 @@ namespace Capstone
                 if (userInput == "1")
                 {
                     string prompt = "Insert 1,2,5 or 10 dollar bills or enter 'q' to exit";
-                    string[] validBills = {"1", "2", "5", "10" };
+                    string[] validBills = { "1", "2", "5", "10" };
                     string errorMessage = "Invalid bill inserted";
                     string moneyString = DisplayHelper.GetValidInput(prompt, validBills, errorMessage);
                     if (moneyString != null)
