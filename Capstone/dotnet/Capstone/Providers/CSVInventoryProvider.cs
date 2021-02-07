@@ -30,7 +30,16 @@ namespace Capstone.Providers
 
             foreach (string line in fileData)
             {
-                ProcessProductString(line, products);
+                string slotID = GetProductCode(line);
+
+                // Check if a product has already been added to the given slot.
+                if (products.ContainsKey(slotID))
+                {
+                    throw new ProvideProductsException($"Cannot add two products to the same slot: {slotID}");
+                }
+
+                Product product = GetProduct(line);
+                products.Add(slotID, product);
             }
 
             return products;
@@ -54,24 +63,26 @@ namespace Capstone.Providers
             return tokens[0];
         }
 
-        private void ProcessProductString(string csvLine, Dictionary<string, Product> products)
+        public Product GetProduct(string csvLine)
         {
             string[] tokens = GetTokens(csvLine);
 
             // Get the product info from the fields.
-            string slotName = GetProductCode(csvLine);
             string productName = tokens[1];
             decimal price = GetProductPrice(tokens[2]);
             string productType = tokens[3];
 
-            // Check if a product has already been added to the given slot.
-            if (products.ContainsKey(slotName))
+            Product product;
+
+            try
             {
-                throw new ProvideProductsException($"Cannot add two products to the same slot: {slotName}");
+                product = Product.MakeProduct(productName, price, productType);
+            } catch (ArgumentException e)
+            {
+                throw new ProvideProductsException(e.Message, e);
             }
 
-            Product product = MakeProduct(productName, price, productType);
-            products.Add(slotName, product);
+            return product;
         }
 
         private decimal GetProductPrice(string priceString)
@@ -86,35 +97,6 @@ namespace Capstone.Providers
                 throw new ProvideProductsException($"Failed to read price of product: {priceString}.", e);
             }
             return price;
-        }
-
-        private Product MakeProduct(string productName, decimal price, string productType)
-        {
-            Product product;
-            
-            // Construct product based on the type
-            if (productType == "Chip")
-            {
-                product = new Chip(productName, price);
-            }
-            else if (productType == "Candy")
-            {
-                product = new Candy(productName, price);
-            }
-            else if (productType == "Drink")
-            {
-                product = new Drink(productName, price);
-            }
-            else if (productType == "Gum")
-            {
-                product = new Gum(productName, price);
-            }
-            else
-            {
-                throw new ProvideProductsException($"Unknown product type: {productType}.");
-            }
-
-            return product;
         }
     }
 }
