@@ -18,9 +18,9 @@ namespace Capstone
             get { return currentInventory.Keys; }
         }
 
-        public VendingMachine(IProductProvider provider)
+        public VendingMachine(IInventoryProvider provider)
         {
-            currentInventory = provider.GetProducts();
+            currentInventory = provider.GetInventory();
         }
 
         public bool AcceptsBill(int dollarAmount)

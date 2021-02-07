@@ -3,22 +3,14 @@ using System.Runtime.Serialization;
 
 namespace Capstone.Providers
 {
-    class ProvideProductsException : Exception
+    [Serializable]
+    public class ProvideProductsException : Exception
     {
-        public ProvideProductsException()
-        {
-        }
-
-        public ProvideProductsException(string message) : base(message)
-        {
-        }
-
-        public ProvideProductsException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected ProvideProductsException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
+        public ProvideProductsException() { }
+        public ProvideProductsException(string message) : base(message) { }
+        public ProvideProductsException(string message, Exception inner) : base(message, inner) { }
+        protected ProvideProductsException(
+          SerializationInfo info,
+          StreamingContext context) : base(info, context) { }
     }
 }

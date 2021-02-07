@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace CapstoneTests.Providers
 {
-    class StubProductProvider : IProductProvider
+    class StubProductProvider : IInventoryProvider
     {
         private readonly Dictionary<string, Product> products = new Dictionary<string, Product>();
 
-        public IDictionary<string, Product> GetProducts()
+        public IDictionary<string, Product> GetInventory()
         {
             return products;
         }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Capstone.Providers
 {
-    public interface IProductProvider
+    public interface IInventoryProvider
     {
-        public IDictionary<string, Product> GetProducts();
+        public IDictionary<string, Product> GetInventory();
     }
 }
