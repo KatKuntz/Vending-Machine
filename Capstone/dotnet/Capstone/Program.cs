@@ -10,10 +10,20 @@ namespace Capstone
     {
         static void Main(string[] args)
         {
-            IInventoryProvider provider = new CSVInventoryProvider("vendingmachine.csv", '|');
-            VendingMachine vendingMachine = new VendingMachine(provider);
+            try
+            {
+                IInventoryProvider provider = new CSVInventoryProvider("vendingmachine.csv", '|');
+                VendingMachine vendingMachine = new VendingMachine(provider);
 
-            MainMenuLoop(vendingMachine);
+                MainMenuLoop(vendingMachine);
+            } catch (ProvideInventoryException ex)
+            {
+                Console.WriteLine($"Error loading inventory: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"\t{ex.InnerException.Message}");
+                }
+            }
         }
 
         private static void MainMenuLoop(VendingMachine vendingMachine)

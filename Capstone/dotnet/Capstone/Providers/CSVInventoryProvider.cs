@@ -19,7 +19,7 @@ namespace Capstone.Providers
             }
             catch (Exception ex)
             {
-                throw new ProvideProductsException("Failed to read data from input file.", ex);
+                throw new ProvideInventoryException("Failed to read data from input file.", ex);
             }
 
             parser = new CSVInventoryParser(delimiter);
@@ -38,14 +38,14 @@ namespace Capstone.Providers
                     // Check if a product has already been added to the given slot.
                     if (products.ContainsKey(slotID))
                     {
-                        throw new ProvideProductsException($"Cannot add two products to the same slot: {slotID}");
+                        throw new ProvideInventoryException($"Cannot add two products to the same slot: {slotID}");
                     }
 
                     Product product = parser.GetProduct(line);
                     products.Add(slotID, product);
                 } catch (ParseException e)
                 {
-                    throw new ProvideProductsException("Error parsing a line in the input file.", e);
+                    throw new ProvideInventoryException("Error parsing a line in the input file.", e);
                 }
             }
 
