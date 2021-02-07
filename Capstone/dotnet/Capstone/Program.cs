@@ -75,21 +75,16 @@ namespace Capstone
                     DisplayHelper.DisplayVendingItems(vendingMachine);
                     string prompt = "Input Slot I.D. or 'q' to exit";
                     string errorMessage = "Invalid Slot Selected";
-                    ICollection<string> stockedSlots = new List<string>();
-                    foreach (string slot in vendingMachine.Slots)
-                    {
-                        Product productSlotted = vendingMachine.GetItem(slot);
-                        if (productSlotted.CurrentQuantity > 0)
-                        {
-                            stockedSlots.Add(slot);
-                        }
-                    }
-                    string selectedSlot = DisplayHelper.GetValidInput(prompt, stockedSlots, errorMessage);
+                    string selectedSlot = DisplayHelper.GetValidInput(prompt, vendingMachine.Slots, errorMessage);
 
                     if (selectedSlot != null)
                     {
                         Product product = vendingMachine.GetItem(selectedSlot);
-                        if (vendingMachine.CurrentBalance >= product.Price)
+                        if (product.CurrentQuantity <= 0)
+                        {
+                            Console.WriteLine($"Sorry, that item is sold out.");
+                        }
+                        else if (vendingMachine.CurrentBalance >= product.Price)
                         {
                             vendingMachine.Dispense(selectedSlot);
                             Console.WriteLine($"{product.ProductName} purchased for {product.Price:C2} with balance remaining of {vendingMachine.CurrentBalance:C2}");
