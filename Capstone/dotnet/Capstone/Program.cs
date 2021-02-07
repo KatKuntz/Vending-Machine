@@ -102,7 +102,7 @@ namespace Capstone
                 else if (userInput == "3")
                 {
                     Change change = vendingMachine.ReturnChange();
-                    Console.WriteLine($"Dispensing {change.Quarters} quarters, {change.Dimes} dimes, and {change.Nickles} nickles");
+                    Console.WriteLine($"Dispensing {change.Quarters} quarters, {change.Dimes} dimes, and {change.Nickels} nickels");
                     inMenu = false;
                 }
             }
