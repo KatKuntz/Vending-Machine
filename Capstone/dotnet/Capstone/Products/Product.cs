@@ -3,11 +3,21 @@ namespace Capstone.Products
 {
     public abstract class Product
     {
-        public int CurrentQuantity { get; private set; } = 5;
+        public int CurrentQuantity { get; private set; }
         public int NumberSold { get; private set; } = 0;
         public string ProductName { get; }
         public decimal Price { get; }
-        public void SellProduct()
+        public Product(string productName, decimal price, int initialQuantity)
+        {
+            if (initialQuantity < 0)
+            {
+                throw new ArgumentException("Initial quantity cannot be less than 0");
+            }
+            CurrentQuantity = initialQuantity;
+            ProductName = productName;
+            Price = price;
+        }
+        public void Sell()
         {
             if (CurrentQuantity == 0)
             {
@@ -16,33 +26,28 @@ namespace Capstone.Products
             CurrentQuantity--;
             NumberSold++;
         }
-        public Product(string productName, decimal price)
-        {
-            ProductName = productName;
-            Price = price;
-        }
         public abstract string GetMessage();
 
-        public static Product MakeProduct(string productName, decimal price, string productType)
+        public static Product MakeProduct(string productName, decimal price, string productType, int initialQuantity)
         {
             Product product;
 
             // Construct product based on the type
             if (productType == "Chip")
             {
-                product = new Chip(productName, price);
+                product = new Chip(productName, price, initialQuantity);
             }
             else if (productType == "Candy")
             {
-                product = new Candy(productName, price);
+                product = new Candy(productName, price, initialQuantity);
             }
             else if (productType == "Drink")
             {
-                product = new Drink(productName, price);
+                product = new Drink(productName, price, initialQuantity);
             }
             else if (productType == "Gum")
             {
-                product = new Gum(productName, price);
+                product = new Gum(productName, price, initialQuantity);
             }
             else
             {

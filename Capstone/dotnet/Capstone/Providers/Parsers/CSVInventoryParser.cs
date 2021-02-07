@@ -28,11 +28,12 @@ namespace Capstone.Providers.Parsers
             decimal price = GetProductPrice(tokens[2]);
             string productType = tokens[3];
 
-            Product product;
+            int initialQuantity = 5;
 
+            Product product;
             try
             {
-                product = Product.MakeProduct(productName, price, productType);
+                product = Product.MakeProduct(productName, price, productType, initialQuantity);
             }
             catch (ArgumentException e)
             {
