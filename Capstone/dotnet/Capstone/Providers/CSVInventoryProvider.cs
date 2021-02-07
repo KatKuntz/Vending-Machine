@@ -1,5 +1,5 @@
-﻿using Capstone.Products;
-using Capstone.Parsers;
+﻿using Capstone.Parsers;
+using Capstone.Products;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,7 +43,8 @@ namespace Capstone.Providers
 
                     Product product = parser.GetProduct(line);
                     products.Add(slotID, product);
-                } catch (ParseException e)
+                }
+                catch (ParseException e)
                 {
                     throw new ProvideInventoryException("Error parsing a line in the input file.", e);
                 }

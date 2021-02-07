@@ -16,14 +16,16 @@ namespace Capstone
                 VendingMachine vendingMachine = new VendingMachine(provider);
 
                 MainMenuLoop(vendingMachine);
-            } catch (ProvideInventoryException ex)
+            }
+            catch (ProvideInventoryException ex)
             {
                 Console.WriteLine($"Error loading inventory: {ex.Message}");
                 if (ex.InnerException != null)
                 {
                     Console.WriteLine($"\t{ex.InnerException.Message}");
                 }
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine($"An unexpected error occured: {ex.Message}");
             }
