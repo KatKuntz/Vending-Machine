@@ -9,7 +9,7 @@ namespace Capstone.Products
         public decimal Price { get; }
         public void SellProduct()
         {
-            if(CurrentQuantity==0)
+            if (CurrentQuantity == 0)
             {
                 throw new InvalidOperationException("Inventory is at zero and cannot be sold");
             }

@@ -78,7 +78,7 @@ namespace Capstone.Providers
         private Product MakeProduct(string productName, decimal price, string productType)
         {
             Product product;
-            
+
             // Construct product based on the type
             if (productType == "Chip")
             {
