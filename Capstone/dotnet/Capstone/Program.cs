@@ -23,6 +23,9 @@ namespace Capstone
                 {
                     Console.WriteLine($"\t{ex.InnerException.Message}");
                 }
+            } catch (Exception ex)
+            {
+                Console.WriteLine($"An unexpected error occured: {ex.Message}");
             }
         }
 
