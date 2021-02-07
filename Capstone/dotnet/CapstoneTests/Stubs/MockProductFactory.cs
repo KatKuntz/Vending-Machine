@@ -3,7 +3,7 @@ using System;
 
 namespace CapstoneTests.Stubs
 {
-    class StubProductFactory : IProductFactory
+    class MockProductFactory : IProductFactory
     {
         private readonly bool throwException;
 
@@ -12,7 +12,7 @@ namespace CapstoneTests.Stubs
         public string ProductType { get; private set; }
         public int InitialQuantity { get; private set; }
 
-        public StubProductFactory(bool throwException)
+        public MockProductFactory(bool throwException)
         {
             this.throwException = throwException;
         }
