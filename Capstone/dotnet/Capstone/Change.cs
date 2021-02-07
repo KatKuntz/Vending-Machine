@@ -1,27 +1,39 @@
-﻿namespace Capstone
+﻿using System;
+
+namespace Capstone
 {
     public class Change
     {
         public int Quarters { get; private set; }
         public int Dimes { get; private set; }
         public int Nickles { get; private set; }
+        public int Pennies { get; private set; }
         public Change(decimal amount)
         {
-            while (amount >= 0.25M)
+            if (amount < 0)
             {
-                amount -= .25M;
+                throw new ArgumentException("Cannot make change for negative money.");
+            }
+
+            // Convert dollar amount to cents, discarding anything less than $0.01
+            int cents = (int)(amount * 100);
+
+            while (cents >= 25)
+            {
+                cents -= 25;
                 Quarters++;
             }
-            while (amount >= 0.10M)
+            while (cents >= 10)
             {
-                amount -= .10M;
+                cents -= 10;
                 Dimes++;
             }
-            while (amount >= 0.05M)
+            while (cents >= 5)
             {
-                amount -= .05M;
+                cents -= 5;
                 Nickles++;
             }
+            Pennies = cents;
         }
     }
 }
