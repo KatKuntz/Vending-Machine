@@ -6,7 +6,7 @@ namespace Capstone
     {
         public int Quarters { get; private set; }
         public int Dimes { get; private set; }
-        public int Nickles { get; private set; }
+        public int Nickels { get; private set; }
         public int Pennies { get; private set; }
         public Change(decimal amount)
         {
@@ -31,7 +31,7 @@ namespace Capstone
             while (cents >= 5)
             {
                 cents -= 5;
-                Nickles++;
+                Nickels++;
             }
             Pennies = cents;
         }
