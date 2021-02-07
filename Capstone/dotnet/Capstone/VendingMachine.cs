@@ -70,7 +70,8 @@ namespace Capstone
         {
             decimal initialBalance = CurrentBalance;
             Change change = new Change(CurrentBalance);
-            Logger.Log($"GIVE CHANGE: {initialBalance:C2} $0.00");
+            CurrentBalance = 0;
+            Logger.Log($"GIVE CHANGE: {initialBalance:C2} {CurrentBalance:C2}");
             return change;
         }
     }
