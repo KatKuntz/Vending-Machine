@@ -2,7 +2,7 @@
 
 namespace Capstone.Products
 {
-    class ProductFactory : IProductFactory
+    public class ProductFactory : IProductFactory
     {
         public Product MakeProduct(string productName, decimal price, string productType, int initialQuantity)
         {
