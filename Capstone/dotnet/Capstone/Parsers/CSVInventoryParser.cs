@@ -6,10 +6,17 @@ namespace Capstone.Parsers
     public class CSVInventoryParser
     {
         private readonly char delimiter;
+        private IProductFactory productFactory;
 
-        public CSVInventoryParser(char delimiter)
+        public CSVInventoryParser(char delimiter) : this(delimiter, new ProductFactory())
+        {
+
+        }
+
+        public CSVInventoryParser(char delimiter, IProductFactory productFactory)
         {
             this.delimiter = delimiter;
+            this.productFactory = productFactory;
         }
 
         public string GetProductCode(string csvLine)
@@ -33,7 +40,7 @@ namespace Capstone.Parsers
             Product product;
             try
             {
-                product = Product.MakeProduct(productName, price, productType, initialQuantity);
+                product = productFactory.MakeProduct(productName, price, productType, initialQuantity);
             }
             catch (ArgumentException e)
             {
