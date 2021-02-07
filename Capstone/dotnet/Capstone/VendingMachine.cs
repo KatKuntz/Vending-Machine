@@ -1,6 +1,7 @@
 ﻿using Capstone.Products;
 using Capstone.Providers;
 using Capstone.Util;
+using System;
 using System.Collections.Generic;
 
 namespace Capstone
@@ -8,68 +9,70 @@ namespace Capstone
     public class VendingMachine
     {
         public decimal CurrentBalance { get; private set; } = 0;
-        public IDictionary<string, Product> CurrentInventory { get; }
-        public VendingMachine(IProductProvider provider)
+        public decimal TotalSales { get; private set; } = 0;
+
+        private readonly IDictionary<string, Product> currentInventory;
+
+        public ICollection<string> Slots
         {
-            CurrentInventory = provider.GetProducts();
+            get { return currentInventory.Keys; }
         }
 
-        public void FeedMoney(decimal deposit)
+        public VendingMachine(IInventoryProvider provider)
         {
-            CurrentBalance += deposit;
-            Logger.Log($"FEED MONEY: ${deposit} {CurrentBalance}");
+            currentInventory = provider.GetInventory();
         }
-        /*public void GetInventory()
+
+        public bool AcceptsBill(int dollarAmount)
         {
-            foreach (KeyValuePair<string, Product> indivProduct in CurrentInventory)
+            List<int> validBills = new List<int>() { 1, 2, 5, 10 };
+            return validBills.Contains(dollarAmount);
+        }
+
+        public void FeedMoney(int dollarAmount)
+        {
+            if (!AcceptsBill(dollarAmount))
             {
-                if(indivProduct.Value.CurrentQuantity>0)
-                {
-                    Console.WriteLine($"{indivProduct.Key}. {indivProduct.Value.ProductName} for ${indivProduct.Value.Price}");
-                }
+                throw new InvalidOperationException($"Cannot accept bill value: {dollarAmount}");
             }
-        }*/
-        public decimal GetPrice(string slotId)
-        {
-            return CurrentInventory[slotId].Price;
+            CurrentBalance += dollarAmount;
+            Logger.Log($"FEED MONEY: {dollarAmount:C2} {CurrentBalance:C2}");
         }
+
+        public Product GetItem(string slotId)
+        {
+            if (!Slots.Contains(slotId))
+            {
+                throw new InvalidOperationException($"{slotId} is not a valid slot in this machine.");
+            }
+            return currentInventory[slotId];
+        }
+
         public void Dispense(string slotId)
         {
-            CurrentBalance = -GetPrice(slotId);
-            CurrentInventory[slotId].SellProduct();
-            Logger.Log($"{CurrentInventory[slotId].ProductName} {slotId} ${CurrentBalance+GetPrice(slotId)} ${CurrentBalance}");
-            //Console.WriteLine($"{CurrentInventory[slotId].ProductName} purchased for {CurrentInventory[slotId].Price} with balance remaining of {CurrentBalance}");
-            //Console.WriteLine(CurrentInventory[slotId].GetMessage());
-            //Console.WriteLine($"Current balance is less than the item price. You need ${CurrentInventory[slotId].Price-CurrentBalance} to make this purchase");
+            Product item = GetItem(slotId);
+            if (CurrentBalance < item.Price)
+            {
+                throw new InvalidOperationException("Not enough money to buy item.");
+            }
+            if (item.CurrentQuantity <= 0)
+            {
+                throw new InvalidOperationException("Cannot dispense item: it is sold out.");
+            }
+            item.Sell();
+            decimal initialBalance = CurrentBalance;
+            CurrentBalance -= item.Price;
+            TotalSales += item.Price;
+            Logger.Log($"{item.ProductName} {slotId} {initialBalance:C2} {CurrentBalance:C2}");
+
         }
-        public void ReturnChange()
+        public Change ReturnChange()
         {
             decimal initialBalance = CurrentBalance;
-            int numOfQuarters = 0;
-            int numOfDimes = 0;
-            int numOfNickles = 0;
-            int numOfPennies = 0;
-            while (CurrentBalance >= 0.25M)
-            {
-                CurrentBalance = -.25M;
-                numOfQuarters++;
-            }
-            while (CurrentBalance >= 0.10M)
-            {
-                CurrentBalance = -.10M;
-                numOfDimes++;
-            }
-            while (CurrentBalance >= 0.05M)
-            {
-                CurrentBalance = -.05M;
-                numOfNickles++;
-            }
-            while (CurrentBalance >= 0.01M)
-            {
-                CurrentBalance = -.01M;
-                numOfPennies++;
-            }
-            Logger.Log($"GIVE CHANGE: ${initialBalance} ${CurrentBalance}");
+            Change change = new Change(CurrentBalance);
+            CurrentBalance = 0;
+            Logger.Log($"GIVE CHANGE: {initialBalance:C2} {CurrentBalance:C2}");
+            return change;
         }
     }
 }

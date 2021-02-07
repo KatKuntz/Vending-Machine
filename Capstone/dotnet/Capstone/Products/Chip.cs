@@ -1,8 +1,8 @@
 ﻿namespace Capstone.Products
 {
-    class Chip : Product
+    public class Chip : Product
     {
-        public Chip(string productName, decimal price) : base(productName, price)
+        public Chip(string productName, decimal price, int initialQuantity) : base(productName, price, initialQuantity)
         {
         }
         public override string GetMessage()

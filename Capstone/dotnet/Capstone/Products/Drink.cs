@@ -1,8 +1,8 @@
 ﻿namespace Capstone.Products
 {
-    class Drink : Product
+    public class Drink : Product
     {
-        public Drink(string productName, decimal price) : base(productName, price)
+        public Drink(string productName, decimal price, int initialQuantity) : base(productName, price, initialQuantity)
         {
         }
         public override string GetMessage()
