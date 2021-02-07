@@ -17,5 +17,10 @@ namespace CapstoneTests.Providers
         {
             products.Add(slot, product);
         }
+
+        public List<string> GetSlots()
+        {
+            return new List<string>(products.Keys);
+        }
     }
 }

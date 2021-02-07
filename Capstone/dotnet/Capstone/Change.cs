@@ -35,5 +35,19 @@ namespace Capstone
             }
             Pennies = cents;
         }
+        public override bool Equals(Object obj)
+        {
+            //Change can only be equal to other Change objects
+            if ((obj == null) || obj.GetType() != typeof(Change))
+            {
+                return false;
+            }
+            else
+            {
+                // Already determined that obj is a 'Change' so cast is safe
+                Change other = (Change)obj;
+                return (Quarters == other.Quarters && Dimes == other.Dimes && Nickels == other.Nickels && Pennies == other.Pennies);
+            }
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace Capstone.Products
             ProductName = productName;
             Price = price;
         }
-        public void Sell()
+        public virtual void Sell()
         {
             if (CurrentQuantity == 0)
             {
