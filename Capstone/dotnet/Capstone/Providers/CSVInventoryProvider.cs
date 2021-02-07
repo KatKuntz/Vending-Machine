@@ -1,4 +1,5 @@
 ﻿using Capstone.Products;
+using Capstone.Providers.Parsers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,7 @@ namespace Capstone.Providers
     class CSVInventoryProvider : IInventoryProvider
     {
         private readonly string[] fileData;
-        private readonly char delimiter;
+        private readonly CSVInventoryParser parser;
 
         public CSVInventoryProvider(string filePath, char delimiter = ',')
         {
@@ -21,7 +22,7 @@ namespace Capstone.Providers
                 throw new ProvideProductsException("Failed to read data from input file.", ex);
             }
 
-            this.delimiter = delimiter;
+            parser = new CSVInventoryParser(delimiter);
         }
 
         public IDictionary<string, Product> GetInventory()
@@ -30,73 +31,25 @@ namespace Capstone.Providers
 
             foreach (string line in fileData)
             {
-                string slotID = GetProductCode(line);
-
-                // Check if a product has already been added to the given slot.
-                if (products.ContainsKey(slotID))
+                try
                 {
-                    throw new ProvideProductsException($"Cannot add two products to the same slot: {slotID}");
-                }
+                    string slotID = parser.GetProductCode(line);
 
-                Product product = GetProduct(line);
-                products.Add(slotID, product);
+                    // Check if a product has already been added to the given slot.
+                    if (products.ContainsKey(slotID))
+                    {
+                        throw new ProvideProductsException($"Cannot add two products to the same slot: {slotID}");
+                    }
+
+                    Product product = parser.GetProduct(line);
+                    products.Add(slotID, product);
+                } catch (ParseException e)
+                {
+                    throw new ProvideProductsException("Error parsing a line in the input file.", e);
+                }
             }
 
             return products;
-        }
-
-        private string[] GetTokens(string csvLine)
-        {
-            // Ensure that the line has the right amount of fields
-            string[] tokens = csvLine.Split(delimiter);
-            if (tokens.Length != 4)
-            {
-                throw new ProvideProductsException($"Line not formatted correctly: {csvLine}");
-            }
-            return tokens;
-        }
-
-        public string GetProductCode(string csvLine)
-        {
-            string[] tokens = GetTokens(csvLine);
-
-            return tokens[0];
-        }
-
-        public Product GetProduct(string csvLine)
-        {
-            string[] tokens = GetTokens(csvLine);
-
-            // Get the product info from the fields.
-            string productName = tokens[1];
-            decimal price = GetProductPrice(tokens[2]);
-            string productType = tokens[3];
-
-            Product product;
-
-            try
-            {
-                product = Product.MakeProduct(productName, price, productType);
-            } catch (ArgumentException e)
-            {
-                throw new ProvideProductsException(e.Message, e);
-            }
-
-            return product;
-        }
-
-        private decimal GetProductPrice(string priceString)
-        {
-            decimal price;
-            try
-            {
-                price = decimal.Parse(priceString);
-            }
-            catch (Exception e)
-            {
-                throw new ProvideProductsException($"Failed to read price of product: {priceString}.", e);
-            }
-            return price;
         }
     }
 }
