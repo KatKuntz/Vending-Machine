@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CapstoneTests.Providers
 {
-    class StubProductProvider : IInventoryProvider
+    class StubInventoryProvider : IInventoryProvider
     {
         private readonly Dictionary<string, Product> products = new Dictionary<string, Product>();
 
