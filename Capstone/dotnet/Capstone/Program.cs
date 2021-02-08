@@ -2,6 +2,7 @@
 using Capstone.Providers;
 using Capstone.UI;
 using System;
+using System.Collections.Generic;
 
 namespace Capstone
 {
@@ -59,14 +60,27 @@ namespace Capstone
                 string userInput = PurchaseMenu.Show(vendingMachine.CurrentBalance);
                 if (userInput == "1")
                 {
-                    string prompt = "Insert 1,2,5 or 10 dollar bills or enter 'q' to exit";
-                    string[] validBills = { "1", "2", "5", "10" };
+                    string basePrompt = "Insert 1,2,5 or 10 dollar bills or enter 'q' to exit";
+                    string[] validInputs = { "q", "1", "2", "5", "10" };
                     string errorMessage = "Invalid bill inserted";
-                    string moneyString = DisplayHelper.GetValidInput(prompt, validBills, errorMessage);
-                    if (moneyString != null)
+                    bool feedingBills = true;
+
+                    while (feedingBills)
                     {
-                        int moneyDeposit = int.Parse(moneyString);
-                        vendingMachine.FeedMoney(moneyDeposit);
+                        string prompt = $"{basePrompt}\nCurrent Money Provided: {vendingMachine.CurrentBalance:C2}";
+                        string moneyString = DisplayHelper.GetValidInput(prompt, validInputs, errorMessage);
+                        if (moneyString != null)
+                        {
+                            if (moneyString != "q")
+                            {
+                                int moneyDeposit = int.Parse(moneyString);
+                                vendingMachine.FeedMoney(moneyDeposit);
+                            }
+                            else
+                            {
+                                feedingBills = false;
+                            }
+                        }
                     }
                 }
                 else if (userInput == "2")
@@ -74,9 +88,13 @@ namespace Capstone
                     DisplayHelper.DisplayVendingItems(vendingMachine);
                     string prompt = "Input Slot I.D. or 'q' to exit";
                     string errorMessage = "Invalid Slot Selected";
-                    string selectedSlot = DisplayHelper.GetValidInput(prompt, vendingMachine.Slots, errorMessage);
 
-                    if (selectedSlot != null)
+                    List<string> validInputs = new List<string>(vendingMachine.Slots);
+                    validInputs.Add("q");
+
+                    string selectedSlot = DisplayHelper.GetValidInput(prompt, validInputs, errorMessage);
+
+                    if (selectedSlot != null && selectedSlot != "q")
                     {
                         Product product = vendingMachine.GetItem(selectedSlot);
                         if (product.CurrentQuantity <= 0)

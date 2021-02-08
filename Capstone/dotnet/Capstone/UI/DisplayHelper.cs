@@ -24,39 +24,29 @@ namespace Capstone.UI
 
         public static string GetValidInput(string prompt, ICollection<string> validInputs, string errorMessage)
         {
-            string userInput = "";
+            string userInput;
+            string output = null;
+            bool showErrorMessage = true;
 
-            bool inputValid = false;
-            while (!inputValid)
+            Console.WriteLine(prompt);
+            userInput = Console.ReadLine();
+
+            foreach (string validString in validInputs)
             {
-                Console.WriteLine(prompt);
-                userInput = Console.ReadLine();
-
-                if (userInput.Equals("q", StringComparison.OrdinalIgnoreCase))
+                if (userInput.Equals(validString, StringComparison.OrdinalIgnoreCase))
                 {
-                    userInput = null;
-                    inputValid = true;
-                }
-                else
-                {
-                    foreach (string valid in validInputs)
-                    {
-                        if (userInput.Equals(valid, StringComparison.OrdinalIgnoreCase))
-                        {
-                            userInput = valid;
-                            inputValid = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (!inputValid)
-                {
-                    Console.WriteLine(errorMessage);
+                    output = validString;
+                    showErrorMessage = false;
+                    break;
                 }
             }
 
-            return userInput;
+            if (showErrorMessage)
+            {
+                Console.WriteLine(errorMessage);
+            }
+
+            return output;
         }
     }
 }
