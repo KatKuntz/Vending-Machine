@@ -19,7 +19,7 @@ namespace Capstone.UI
             {
                 PrintMenu();
                 userInput = Console.ReadLine();
-                if (userInput == "1" || userInput == "2" || userInput == "3")
+                if (userInput == "1" || userInput == "2" || userInput == "3" || userInput == "4")
                 {
                     validInput = true;
                 }

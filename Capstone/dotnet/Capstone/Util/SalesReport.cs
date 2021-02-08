@@ -8,28 +8,19 @@ namespace Capstone.Util
 {
     public class SalesReport
     {
-        public static void GetSalesReport(VendingMachine vendingMachine)
+        public static void WriteSalesReport(string fileName, VendingMachine vendingMachine)
         {
-            try
-            {
                 string directory = Environment.CurrentDirectory;
-                string outputFile=$"Sales_Report_{DateTime.Now.ToString()}.txt";
-                string outputFullPath = Path.Combine(directory, outputFile);
+                string outputFullPath = Path.Combine(directory, fileName);
                 using (StreamWriter sw = new StreamWriter(outputFullPath))
                 {
-                    decimal totalSales = 0;
-                    foreach (KeyValuePair<string, Product> salesReportEntry in vendingMachine.CurrentInventory)
+                    foreach (string slot in vendingMachine.Slots)
                     {
-                        sw.WriteLine($"{salesReportEntry.Value.ProductName}|{salesReportEntry.Value.NumberSold}");
-                        totalSales += salesReportEntry.Value.NumberSold;
+                        Product product = vendingMachine.GetItem(slot);
+                        sw.WriteLine($"{product.ProductName}|{product.NumberSold}");
                     }
-                    sw.WriteLine($"\nTOTAL SALES ${totalSales}");
+                    sw.WriteLine($"\nTOTAL SALES ${vendingMachine.TotalSales}");
                 }
-            }
-            catch (Exception e)
-            {
-                throw new Exception("Could not create or write file for Sales Report", e);
-            }
         }
     }
 }
