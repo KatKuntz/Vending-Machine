@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Capstone.UI
+﻿namespace Capstone.UI
 {
     static class PurchaseMenu
     {

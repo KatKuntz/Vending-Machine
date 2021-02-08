@@ -12,7 +12,7 @@ namespace CapstoneTests.Products
         {
             ProductFactory factory = new ProductFactory();
 
-            Assert.ThrowsException<ArgumentException>(() => factory.MakeProduct("",0M,"unknown",0));
+            Assert.ThrowsException<ArgumentException>(() => factory.MakeProduct("", 0M, "unknown", 0));
         }
 
         [TestMethod]

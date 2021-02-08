@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Capstone.Products;
+using System;
 using System.IO;
-using Capstone.Products;
 
 namespace Capstone.Util
 {
@@ -10,17 +8,17 @@ namespace Capstone.Util
     {
         public static void WriteSalesReport(string fileName, VendingMachine vendingMachine)
         {
-                string directory = Environment.CurrentDirectory;
-                string outputFullPath = Path.Combine(directory, fileName);
-                using (StreamWriter sw = new StreamWriter(outputFullPath))
+            string directory = Environment.CurrentDirectory;
+            string outputFullPath = Path.Combine(directory, fileName);
+            using (StreamWriter sw = new StreamWriter(outputFullPath))
+            {
+                foreach (string slot in vendingMachine.Slots)
                 {
-                    foreach (string slot in vendingMachine.Slots)
-                    {
-                        Product product = vendingMachine.GetItem(slot);
-                        sw.WriteLine($"{product.ProductName}|{product.NumberSold}");
-                    }
-                    sw.WriteLine($"\nTOTAL SALES ${vendingMachine.TotalSales}");
+                    Product product = vendingMachine.GetItem(slot);
+                    sw.WriteLine($"{product.ProductName}|{product.NumberSold}");
                 }
+                sw.WriteLine($"\nTOTAL SALES ${vendingMachine.TotalSales}");
+            }
         }
     }
 }
