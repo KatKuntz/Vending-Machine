@@ -1,30 +1,15 @@
-﻿using System;
-
-namespace Capstone.UI
+﻿namespace Capstone.UI
 {
     static class MainMenu
     {
-        private static void PrintMenu()
-        {
-            Console.WriteLine("(1) Display Vending Machine Items");
-            Console.WriteLine("(2) Purchase");
-            Console.WriteLine("(3) Exit");
-        }
-
         public static string Show()
         {
-            string userInput = "";
-            bool validInput = false;
-            while (!validInput)
-            {
-                PrintMenu();
-                userInput = Console.ReadLine();
-                if (userInput == "1" || userInput == "2" || userInput == "3" || userInput == "4")
-                {
-                    validInput = true;
-                }
-            }
-            return userInput;
+            string prompt = "(1) Display Vending Machine Items\n"
+                          + "(2) Purchase\n"
+                          + "(3) Exit";
+            string[] validInputs = { "1", "2", "3", "4" };
+            string errorMessage = "Invalid selection, please try again.";
+            return DisplayHelper.GetValidInput(prompt, validInputs, errorMessage);
         }
     }
 }
