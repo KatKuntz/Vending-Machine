@@ -167,7 +167,10 @@ namespace CapstoneTests
             Change change = machine.ReturnChange();
             Change expected = new Change(1);
 
-            Assert.AreEqual(expected, change);
+            Assert.AreEqual(expected.Quarters, change.Quarters);
+            Assert.AreEqual(expected.Dimes, change.Dimes);
+            Assert.AreEqual(expected.Nickels, change.Nickels);
+            Assert.AreEqual(expected.Pennies, change.Pennies);
         }
     }
 }
