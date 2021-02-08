@@ -1,6 +1,7 @@
 ﻿using Capstone.Products;
 using Capstone.Providers;
 using Capstone.UI;
+using Capstone.Util;
 using System;
 using System.Collections.Generic;
 
@@ -48,6 +49,20 @@ namespace Capstone
                 else if (inputLine == "3")
                 {
                     running = false;
+                }
+                else if (inputLine == "4")
+                {
+                    string dateTimeString = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+                    string outputFile = $"Sales_Report_{dateTimeString}.txt";
+                    try
+                    {
+                        Console.WriteLine($"Writing sales report to {outputFile}");
+                        SalesReport.WriteSalesReport(outputFile, vendingMachine);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine($"Failed to write sales report: {e.Message}");
+                    }
                 }
             }
         }
