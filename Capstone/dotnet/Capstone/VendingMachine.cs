@@ -13,9 +13,9 @@ namespace Capstone
 
         private readonly IDictionary<string, Product> currentInventory;
 
-        public ICollection<string> Slots
+        public List<string> Slots
         {
-            get { return currentInventory.Keys; }
+            get { return new List<string>(currentInventory.Keys); }
         }
 
         public VendingMachine(IInventoryProvider provider)
@@ -23,17 +23,11 @@ namespace Capstone
             currentInventory = provider.GetInventory();
         }
 
-        public bool AcceptsBill(int dollarAmount)
-        {
-            List<int> validBills = new List<int>() { 1, 2, 5, 10 };
-            return validBills.Contains(dollarAmount);
-        }
-
         public void FeedMoney(int dollarAmount)
         {
-            if (!AcceptsBill(dollarAmount))
+            if (dollarAmount < 0)
             {
-                throw new InvalidOperationException($"Cannot accept bill value: {dollarAmount}");
+                throw new ArgumentException("Cannot add a negative amount of money.");
             }
             CurrentBalance += dollarAmount;
             Logger.Log($"FEED MONEY: {dollarAmount:C2} {CurrentBalance:C2}");
@@ -64,7 +58,6 @@ namespace Capstone
             CurrentBalance -= item.Price;
             TotalSales += item.Price;
             Logger.Log($"{item.ProductName} {slotId} {initialBalance:C2} {CurrentBalance:C2}");
-
         }
         public Change ReturnChange()
         {
