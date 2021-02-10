@@ -2,6 +2,6 @@
 {
     public interface IProductFactory
     {
-        public Product MakeProduct(string productName, decimal price, string productType, int initialQuantity);
+        Product MakeProduct(string productName, decimal price, string productType, int initialQuantity);
     }
 }

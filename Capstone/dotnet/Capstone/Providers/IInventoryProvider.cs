@@ -5,6 +5,6 @@ namespace Capstone.Providers
 {
     public interface IInventoryProvider
     {
-        public IDictionary<string, Product> GetInventory();
+        IDictionary<string, Product> GetInventory();
     }
 }
